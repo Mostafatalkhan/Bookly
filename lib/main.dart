@@ -8,12 +8,17 @@ import 'package:book/constant.dart';
 import 'package:book/core/utils/api_service.dart';
 
 import 'package:book/core/utils/routes.dart';
+import 'package:book/firebase_options.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   // ApiService(Dio())
   // .get(endpoint: '/volumes?Filtering=free-ebooks&q=subject:programming');
   SearchRepoImp().searchbook(bookname: 'The Hobbit');
