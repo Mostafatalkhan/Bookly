@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
+    this.width,
     super.key,
     required this.text,
     required this.backGroundcolor,
@@ -11,6 +12,8 @@ class CustomButton extends StatelessWidget {
     required this.onPressed,
   });
   final String text;
+  final double? width;
+
   final Color backGroundcolor;
   final Color textcolor;
   final BorderRadiusGeometry? borderRadius;
@@ -19,6 +22,7 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
+      minWidth: width ?? 40,
       elevation: 0,
       height: 48,
       shape: RoundedRectangleBorder(
