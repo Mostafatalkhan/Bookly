@@ -1,6 +1,3 @@
-import 'package:book/Features/Authurization/presentation/views/login.view.dart';
-import 'package:book/Features/Authurization/presentation/views/sign_up_view.dart';
-import 'package:book/Features/Search/data/repo/search_repo_imp.dart';
 import 'package:book/Features/Search/presentation/manager/search_book_cubit/search_book_cubit.dart';
 import 'package:book/Features/Splash/presentation/views/splash_view.dart';
 import 'package:book/Features/home/data/repo/home_repo_imp.dart';
@@ -58,7 +55,7 @@ class MyApp extends StatelessWidget {
             textTheme:
                 GoogleFonts.montserratTextTheme(Typography.whiteCupertino),
           ),
-          home: const Login(),
+          home: const SplashView(),
           routes: AppRouter.router),
     );
   }

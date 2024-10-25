@@ -46,7 +46,10 @@ class BooksDetailsSection extends StatelessWidget {
           height: 3,
         ),
         Text(
-          books.volumeInfo?.authors?[0] ?? '',
+          (books.volumeInfo?.authors != null &&
+                  books.volumeInfo!.authors!.isNotEmpty)
+              ? books.volumeInfo!.authors![0]
+              : 'UnKnown',
           style: StyleText.textStyle18.copyWith(
               fontWeight: FontWeight.w400,
               color: Colors.grey,

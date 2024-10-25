@@ -39,7 +39,7 @@ class _SearchViewState extends State<SearchView> {
                   onSubmitted: (value) {
                     BlocProvider.of<SearchBookCubit>(context)
                         .searchbook(bookname: value);
-                    // setState(() {});
+                    setState(() {});
                   },
                   decoration: InputDecoration(
                       hintText: 'Search',
@@ -72,18 +72,23 @@ class _SearchViewState extends State<SearchView> {
               BlocBuilder<SearchBookCubit, SearchBookState>(
                 builder: (context, state) {
                   if (state is SearchBookSuccess) {
-                    print(state.books);
+                    print(state.books.length);
                     return Expanded(
                       child: ListView.builder(
                         itemCount: state.books.length,
-                        itemBuilder: (context, index) => SearchedItem(
-                          books: state.books[index],
-                        ),
+                        itemBuilder: (context, index) {
+                          if (index >= state.books.length) {
+                            return const SizedBox(); // avoid RangeError
+                          }
+                          return SearchedItem(
+                            books: state.books[index],
+                          );
+                        },
                       ),
                     );
                   } else if (state is SearchBookFailure) {
                     print('=====================${state.errmsg}');
-                    return Row(
+                    return const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Center(
@@ -98,10 +103,14 @@ class _SearchViewState extends State<SearchView> {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
+                  } else if (state is SearchBookLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
                   } else {
                     return Padding(
                       padding: EdgeInsets.only(left: size.width * 0.37),
-                      child: Text('No Result Yet'),
+                      child: const Text('No Result Yet'),
                     );
                   }
                 },

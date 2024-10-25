@@ -1,23 +1,33 @@
 import 'package:book/Features/Authurization/presentation/views/widgets/custom_text_field.dart';
+import 'package:book/core/utils/routes.dart';
 import 'package:book/core/utils/style.dart';
 import 'package:book/core/widgets/custom_button.dart';
+import 'package:book/errors/failure.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class SignUpBody extends StatelessWidget {
-  const SignUpBody({
+class SignUpBody extends StatefulWidget {
+  SignUpBody({
     super.key,
     required this.size,
   });
-  // final formkey = GlobalKey<FormState>();
   final Size size;
 
   @override
+  State<SignUpBody> createState() => _SignUpBodyState();
+}
+
+class _SignUpBodyState extends State<SignUpBody> {
+  final TextEditingController name = TextEditingController();
+
+  final TextEditingController email = TextEditingController();
+
+  final TextEditingController phone = TextEditingController();
+
+  final TextEditingController password = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
-    final TextEditingController name = TextEditingController();
-    final TextEditingController email = TextEditingController();
-    final TextEditingController phone = TextEditingController();
-    final TextEditingController password = TextEditingController();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -60,9 +70,10 @@ class SignUpBody extends StatelessWidget {
             child: Text('Password'),
           ),
           CustomTextField(
+              obsecure: true,
               controller: password,
               hint: 'Enter your password ',
-              icon: Icons.remove_red_eye),
+              icon: Icons.lock),
           const SizedBox(
             height: 6,
           ),
@@ -79,7 +90,7 @@ class SignUpBody extends StatelessWidget {
             height: 26,
           ),
           Padding(
-            padding: EdgeInsets.only(left: size.width * 0.30),
+            padding: EdgeInsets.only(left: widget.size.width * 0.30),
             child: CustomButton(
                 width: 160,
                 text: 'Sign UP',
@@ -93,11 +104,18 @@ class SignUpBody extends StatelessWidget {
                       email: email.text,
                       password: password.text,
                     );
+                    Navigator.pushReplacementNamed(context, AppRouter.homeView);
                   } on FirebaseAuthException catch (e) {
                     if (e.code == 'weak-password') {
-                      print('The password provided is too weak.');
+                      showmsgclass()
+                          .showmsg(msg: 'The password provided is too weak.');
+
+                      print('');
                     } else if (e.code == 'email-already-in-use') {
-                      print('The account already exists for that email.');
+                      showmsgclass().showmsg(
+                          msg: 'The account already exists for that email.');
+                    } else {
+                      showmsgclass().showmsg(msg: 'Error happened');
                     }
                   } catch (e) {
                     print(e);

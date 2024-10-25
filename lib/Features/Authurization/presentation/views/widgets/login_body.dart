@@ -1,8 +1,10 @@
 import 'package:book/Features/Authurization/presentation/views/widgets/custom_text_field.dart';
 import 'package:book/Features/home/presentation/views/home_view.dart';
 import 'package:book/core/utils/assets.dart';
+import 'package:book/core/utils/routes.dart';
 import 'package:book/core/utils/style.dart';
 import 'package:book/core/widgets/custom_button.dart';
+import 'package:book/errors/failure.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -52,9 +54,10 @@ class LoginBody extends StatelessWidget {
             child: Text('Password'),
           ),
           CustomTextField(
+            obsecure: true,
             controller: password,
             hint: 'Enter your password',
-            icon: Icons.remove_red_eye,
+            icon: Icons.lock,
           ),
           const SizedBox(
             height: 26,
@@ -77,13 +80,41 @@ class LoginBody extends StatelessWidget {
                           builder: (context) => Home(),
                         ));
                   } on FirebaseAuthException catch (e) {
-                    if (e.code == 'user-not-found') {
-                      print('============No user found for that email.');
-                    } else if (e.code == 'wrong-password') {
-                      print('Wrong password provided for that user.');
+                    if (e.code == 'invalid-credential') {
+                      showmsgclass()
+                          .showmsg(msg: 'Email or Password incorrect');
+
+                      print('=======${e.code}');
+                    } else {
+                      showmsgclass()
+                          .showmsg(msg: 'Email or Password incorrect');
                     }
+                    // print('Failed with error code: ${e.code}');
+                    // print(e.message);
                   }
                 }),
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                'Don\'t have an account?',
+                style: TextStyle(color: Colors.grey),
+              ),
+              TextButton(
+                  // style: ButtonStyle(
+                  //     backgroundColor: WidgetStateProperty.all(Colors.black)),
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRouter.signup);
+                  },
+                  child: Text(
+                    'Register',
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ))
+            ],
           )
         ],
       ),

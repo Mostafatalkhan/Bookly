@@ -58,8 +58,12 @@ class SearchedItem extends StatelessWidget {
                       const SizedBox(
                         height: 4,
                       ),
-                      Text(books.volumeInfo!.authors![0],
-                          style: TextStyle(color: Colors.grey)),
+                      Text(
+                          (books.volumeInfo?.authors != null &&
+                                  books.volumeInfo!.authors!.isNotEmpty)
+                              ? books.volumeInfo!.authors![0]
+                              : 'UnKnown',
+                          style: const TextStyle(color: Colors.grey)),
                       const SizedBox(
                         height: 4,
                       ),

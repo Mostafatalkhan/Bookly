@@ -48,7 +48,11 @@ class Home extends StatelessWidget {
                   ),
                 );
               } else if (state is NewestBookFailure) {
-                return SliverToBoxAdapter(child: Text(state.errormsg));
+                print('===========${state.errormsg}');
+                return const SliverToBoxAdapter(
+                    child: Center(
+                  child: Text('Error Happened Try Again Later!'),
+                ));
               } else {
                 return const SliverToBoxAdapter(
                   child: ShimmerBestSeller(),
